@@ -1,0 +1,27 @@
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+
+  }
+  
+  .mat-card {
+    max-width: 60vw;
+    width: 90%;
+    padding: 24px;
+    text-align: center;
+    background-color: lightcyan;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .mat-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+  }

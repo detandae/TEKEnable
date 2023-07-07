@@ -1,0 +1,35 @@
+<div class="center-container">
+    <mat-card>
+      <mat-card-title>Sign Up Form</mat-card-title>
+      <mat-card-content>
+        <form>
+          <mat-form-field>
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" placeholder="Enter your email address" required>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>How did you hear about us?</mat-label>
+            <mat-select placeholder="Select" required [(ngModel)]="selectedOption"  [ngModelOptions]="{standalone: true}" (selectionChange)="onSelectionChange()">
+              <mat-option value="advert">Advert</mat-option>
+              <mat-option value="wordOfMouth">Word of Mouth</mat-option>
+              <mat-option value="other">Other</mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field *ngIf="selectedOption === 'other'">
+            <mat-label>Please specify</mat-label>
+            <input matInput placeholder="Specify how you heard about us">
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Reason for Signing Up (optional)</mat-label>
+            <textarea matInput placeholder="Enter your reason"></textarea>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Submit</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
