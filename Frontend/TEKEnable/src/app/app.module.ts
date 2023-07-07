@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule} from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
@@ -19,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
     MatFormFieldModule,
