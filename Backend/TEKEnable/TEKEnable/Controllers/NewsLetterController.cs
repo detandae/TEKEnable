@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TEKEnable.Models;
 
 namespace TEKEnable.Controllers
@@ -8,17 +9,27 @@ namespace TEKEnable.Controllers
     public class NewsLetterController : ControllerBase
     {
         private readonly ILogger<NewsLetterController> _logger;
+        private readonly TEKEnableDbContext _dbContext;
 
-        public NewsLetterController(ILogger<NewsLetterController> logger)
+        public NewsLetterController(ILogger<NewsLetterController> logger,TEKEnableDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
-        [HttpPost("AddNewsLetter")]
+        [HttpPost("SignUp")]
 
-        public async Task<IActionResult> AddNewsLetter([FromBody] SignUpDetails signUpDetails)
+        public async Task<IActionResult> AddNewsLetter([FromBody] SignUpDetails newSignUpDetails)
         {
-            return Ok();
+            _logger.LogInformation(newSignUpDetails.ToString());
+            var signUpDetails = await _dbContext.SignUpDetails.FirstOrDefaultAsync(s => s.Email == newSignUpDetails.Email);
+            if (signUpDetails != null)
+            {
+                return BadRequest("This email address is already signed up!");
+            }
+            _dbContext.SignUpDetails.Add(newSignUpDetails);
+            await _dbContext.SaveChangesAsync();
+            return Ok(newSignUpDetails);
         }
     }
 }
