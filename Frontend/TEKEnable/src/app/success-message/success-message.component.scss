@@ -1,0 +1,26 @@
+.success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #dff0d8;
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  .success-icon {
+    font-size: 48px;
+    color: #4caf50;
+  }
+  
+  .success-heading {
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .success-text {
+    margin-top: 10px;
+    font-size: 16px;
+    text-align: center;
+  }

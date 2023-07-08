@@ -34,6 +34,9 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="shouldDisableSubmit()" (click)="onSubmitClicked()">Submit</button>
+      <div class="error-message" *ngIf="isError">{{ errorMessage }}</div>
     </mat-card-actions>
+    
+
   </mat-card>
 </div>

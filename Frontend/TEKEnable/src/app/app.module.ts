@@ -10,14 +10,18 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NewsLetterService } from './services/newsLetter.service';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
+import { SuccessMessageComponent } from './success-message/success-message.component';
 @NgModule({
   declarations: [
     AppComponent,
-    NewsLetterFormComponent
+    NewsLetterFormComponent,
+    SuccessMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
-    HttpClientModule
+    MatIconModule,
+    HttpClientModule,
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [NewsLetterService],
   bootstrap: [AppComponent]

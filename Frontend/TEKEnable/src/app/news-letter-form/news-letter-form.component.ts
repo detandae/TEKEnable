@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {SignUpDetails} from '../models/signUpDetails';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NewsLetterService } from '../services/newsLetter.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-news-letter-form',
@@ -14,8 +15,11 @@ import { NewsLetterService } from '../services/newsLetter.service';
 export class NewsLetterFormComponent implements OnInit {
 
   signUpForm: FormGroup;
+  isError: boolean;
+  errorMessage: string;
 
-  constructor(private formBuilder: FormBuilder,private newsLetterService: NewsLetterService) {}
+  constructor(private formBuilder: FormBuilder,private newsLetterService: NewsLetterService,
+    private router: Router) {}
 
   ngOnInit() {
     this.signUpForm = this.formBuilder.group({
@@ -39,6 +43,8 @@ export class NewsLetterFormComponent implements OnInit {
   }
 
   onSubmitClicked() {
+    this.isError = false;
+    this.errorMessage =  ''; 
     let signUpDetails=new SignUpDetails();
     signUpDetails.email=this.signUpForm.get('email')?.value;
     signUpDetails.sourceOfInformation=this.signUpForm.get('sourceOfInformation')?.value;
@@ -51,10 +57,13 @@ export class NewsLetterFormComponent implements OnInit {
       next: response => {
         console.log(response);
         console.log('Sign up successful!');
+        this.router.navigate(['/success']);
 
       },
       error: error => {
-        console.error('Sign up failed:', error);
+        console.log(JSON.stringify(error))
+         this.isError = true;
+         this.errorMessage =  error.error; ;
       }
     });
 
