@@ -22,6 +22,11 @@ namespace TEKEnable.Controllers
         public async Task<IActionResult> AddNewsLetter([FromBody] SignUpDetails newSignUpDetails)
         {
             _logger.LogInformation(newSignUpDetails.ToString());
+            bool isReasonValid = new[] { "advert", "wordOfMouth", "other" }.Contains(newSignUpDetails.SourceOfInformation);
+            if (!isReasonValid)
+            {
+                return BadRequest("The SourceOfInformation field is not valid");
+            }
             var signUpDetails = await _dbContext.SignUpDetails.FirstOrDefaultAsync(s => s.Email == newSignUpDetails.Email);
             if (signUpDetails != null)
             {
