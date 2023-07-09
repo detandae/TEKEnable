@@ -10,7 +10,6 @@ namespace TEKEnable.Controllers
     public class NewsLetterController : ControllerBase
     {
         private readonly ILogger<NewsLetterController> _logger;
-        private readonly TEKEnableDbContext _dbContext;
         private readonly INewsLetterService _newsLetterService;
         public NewsLetterController(ILogger<NewsLetterController> logger, INewsLetterService newsLetterService)
         {
