@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TEKEnable.Models;
+using TEKEnable.Services;
 
 namespace TEKEnable.Controllers
 {
@@ -10,31 +11,33 @@ namespace TEKEnable.Controllers
     {
         private readonly ILogger<NewsLetterController> _logger;
         private readonly TEKEnableDbContext _dbContext;
-
-        public NewsLetterController(ILogger<NewsLetterController> logger,TEKEnableDbContext dbContext)
+        private readonly INewsLetterService _newsLetterService;
+        public NewsLetterController(ILogger<NewsLetterController> logger, INewsLetterService newsLetterService)
         {
             _logger = logger;
-            _dbContext = dbContext;
+            _newsLetterService = newsLetterService;
         }
 
         [HttpPost("SignUp")]
 
         public async Task<IActionResult> AddNewsLetter([FromBody] SignUpDetails newSignUpDetails)
         {
-            _logger.LogInformation(newSignUpDetails.ToString());
-            bool isReasonValid = new[] { "advert", "wordOfMouth", "other" }.Contains(newSignUpDetails.SourceOfInformation);
-            if (!isReasonValid)
+            try
             {
-                return BadRequest("The SourceOfInformation field is not valid");
+                _logger.LogInformation(newSignUpDetails.ToString());
+                var validationResult = await _newsLetterService.ValidateSignUpDetails(newSignUpDetails);
+                if (!validationResult.IsValid)
+                {
+                    return BadRequest(validationResult.ErrorMessage);
+                }
+                await _newsLetterService.SaveSignUpDetails(newSignUpDetails);
+                return Ok(newSignUpDetails);
             }
-            var signUpDetails = await _dbContext.SignUpDetails.FirstOrDefaultAsync(s => s.Email == newSignUpDetails.Email);
-            if (signUpDetails != null)
+            catch (Exception e)
             {
-                return BadRequest("This email address is already signed up!");
+                _logger.LogError(e.ToString());
+                return StatusCode(500, "An error occurred while processing the request.");
             }
-            _dbContext.SignUpDetails.Add(newSignUpDetails);
-            await _dbContext.SaveChangesAsync();
-            return Ok(newSignUpDetails);
         }
     }
 }
